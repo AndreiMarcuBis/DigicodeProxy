@@ -19,7 +19,7 @@ namespace DigicodeProxy
             creation_date = DateTime.UtcNow.Subtract(DateTime.Parse("0001-01-01T00:00:00Z")).TotalMilliseconds;
         }
 
-        public double get_creation_date()
+        public double get_creation_time()
         {
             return creation_date;
         }

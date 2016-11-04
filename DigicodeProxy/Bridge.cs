@@ -57,6 +57,22 @@ namespace DigicodeProxy
             return local_end == null && remote_end == null;
         }
 
+        public bool use_socket(Socket s)
+        {
+            if (local_end == s)
+            {
+                transfer_to_remote();
+                return true;
+            }
+            else if (remote_end == s)
+            {
+                transfer_to_local();
+                return true;
+            }
+
+            return false;
+        }
+
         private void close()
         {
             local_end.Close();

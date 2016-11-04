@@ -38,9 +38,15 @@
   <ItemGroup>
     <Compile Include="Authorization.cs" />
     <Compile Include="Bridge.cs" />
+    <Compile Include="BridgeBuilder.cs" />
+    <Compile Include="BridgeRouter.cs" />
     <Compile Include="BridgeSpecification.cs" />
+    <Compile Include="DigicodeProxy.cs" />
+    <Compile Include="ISocketComponent.cs" />
+    <Compile Include="Keypad.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Request.cs" />
+    <Compile Include="Time.cs" />
     <Compile Include="Token.cs" />
   </ItemGroup>
   <ItemGroup>
