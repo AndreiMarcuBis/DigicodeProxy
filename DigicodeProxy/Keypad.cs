@@ -23,8 +23,19 @@ namespace DigicodeProxy
             this.token_length = token_length;
             this.token_duration = token_duration;
 
-            s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            s.Bind(new IPEndPoint(IPAddress.Any, port));
+            try
+            {
+                s = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                s.Bind(new IPEndPoint(IPAddress.Any, port));
+            }
+            catch (SocketException)
+            {
+                throw new PredictedException("can't create or bind keypad socket");
+            }
+            catch (System.Security.SecurityException)
+            {
+                throw new PredictedException("can't bind keypad socket on specific port for security reason");
+            }
         }
 
         public List<Socket> get_sockets_to_read()

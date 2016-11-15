@@ -44,6 +44,7 @@
     <Compile Include="DigicodeProxy.cs" />
     <Compile Include="ISocketComponent.cs" />
     <Compile Include="Keypad.cs" />
+    <Compile Include="PredictedException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Request.cs" />
     <Compile Include="Time.cs" />

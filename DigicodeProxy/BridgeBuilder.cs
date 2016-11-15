@@ -20,9 +20,20 @@ namespace DigicodeProxy
             this.router = router;
             this.authorization_duration = authorization_duration;
 
-            s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            s.Bind(new IPEndPoint(IPAddress.Any, port));
-            s.Listen(0);
+            try
+            {
+                s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                s.Bind(new IPEndPoint(IPAddress.Any, port));
+                s.Listen(0);
+            }
+            catch (SocketException)
+            {
+                throw new PredictedException("can't create, bind or listen on bridge socket");
+            }
+            catch (System.Security.SecurityException)
+            {
+                throw new PredictedException("can't bind bridge socket on specific port for security reason");
+            }
         }
 
         public void add_authorization(Authorization a)
@@ -42,7 +53,16 @@ namespace DigicodeProxy
         {
             if (this.s == s)
             {
-                Socket c = s.Accept();
+                Socket c = null;
+                try
+                {
+                    c = s.Accept();
+                }
+                catch (SocketException)
+                {
+                    throw new PredictedException("can't accept new connection");
+                }
+
                 string address = ((IPEndPoint)c.RemoteEndPoint).Address.ToString();
 
                 int i = authorizations.FindIndex(a => a.get_address() == address);
@@ -56,6 +76,10 @@ namespace DigicodeProxy
                         router.add_bridge(new Bridge(l, c));
                     }
                     catch (SocketException)
+                    {
+
+                    }
+                    catch (System.Security.SecurityException)
                     {
 
                     }

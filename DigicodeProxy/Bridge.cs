@@ -32,24 +32,46 @@ namespace DigicodeProxy
         {
             byte[] b = new byte[2048];
 
-            int size = remote_end.Receive(b);
+            try
+            {
+                int size = remote_end.Receive(b);
 
-            if (size > 0)
-                local_end.Send(b.Take(size).ToArray());
-            else
+                if (size > 0)
+                    local_end.Send(b.Take(size).ToArray());
+                else
+                    close();
+            }
+            catch (SocketException)
+            {
                 close();
+            }
+            catch (System.Security.SecurityException)
+            {
+                close();
+            }
         }
 
         public void transfer_to_remote()
         {
             byte[] b = new byte[2048];
 
-            int size = local_end.Receive(b);
+            try
+            {
+                int size = local_end.Receive(b);
 
-            if (size > 0)
-                remote_end.Send(b.Take(size).ToArray());
-            else
+                if (size > 0)
+                    remote_end.Send(b.Take(size).ToArray());
+                else
+                    close();
+            }
+            catch (SocketException)
+            {
                 close();
+            }
+            catch (System.Security.SecurityException)
+            {
+                close();
+            }
         }
 
         public bool is_closed()
